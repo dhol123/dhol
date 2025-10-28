@@ -1,59 +1,128 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Student Details</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>College Information</title>
   <style>
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-family:Arial, sans-serif;
-      background:#f3f6fb;
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
     }
-    .card{
-      width:340px;
-      background:#fff;
-      padding:18px;
-      border-radius:10px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.08);
+
+    header {
+      background: #012E4E;
+      color: white;
+      text-align: center;
+      padding: 15px;
     }
-    h1{
-      margin:0 0 12px;
-      font-size:18px;
-      text-align:center;
+
+    header img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      vertical-align: middle;
     }
-    table{
-      width:100%;
-      border-collapse:collapse;
+
+    header h1 {
+      font-size: 18px;
+      margin: 10px 0 5px;
     }
-    th,td{
-      padding:8px 6px;
-      font-size:14px;
-      text-align:left;
-      border-bottom:1px solid #eef2f6;
+
+    header p {
+      font-size: 13px;
+      margin: 0;
     }
-    th{font-weight:600}
-    tbody tr:last-child td{border-bottom:0}
-  </style>
+
+    .container {
+      max-width: 600px;
+      background: white;
+      margin: 30px auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: grid;
+      gap: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    button {
+      background: #012E4E;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    button:hover {
+      background: #024379;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 16px;
+      }
+    }
+  </style>  
 </head>
 <body>
-  <div class="card">
-    <h1>Student Details</h1>
-    <table>
-      <thead>
-        <tr><th>Roll</th><th>Name</th><th>Class</th><th>Phone</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>01</td><td>Aman Sharma</td><td>12-A</td><td>9876543210</td></tr>
-        <tr><td>02</td><td>Priya Singh</td><td>12-B</td><td>9123456780</td></tr>
-        <tr><td>03</td><td>Rohit Kumar</td><td>11-C</td><td>9012345678</td></tr>
-      </tbody>
-    </table>
+
+  <header>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTapnayWNp3HmnlbSs-qziqbi3cTkc8FAhJPt1WWwSgFZRDoPQ_aU2pHN77LhLNLQmxYL4&usqp=CAU" alt="College Logo">
+    <h1>Vidya Pratishthan's K.B.I.T, Baramati</h1>
+    <p>Autonomous | AICTE Approved | NAAC 'A+' | Affiliated to SPPU, Pune</p>
+  </header>
+
+  <div class="container">
+    <h2>Student Information Form</h2>
+    <form>
+      <label>PRN</label>
+      <input type="text" placeholder="Enter PRN Number">
+
+      <label>First Name</label>
+      <input type="text" placeholder="Enter First Name">
+
+      <label>Last Name</label>
+      <input type="text" placeholder="Enter Last Name">
+
+      <label>Branch</label>
+      <input type="text" placeholder="Enter Branch">
+
+      <label>Division</label>
+      <input type="text" placeholder="Enter Division">
+
+      <label>Mobile</label>
+      <input type="tel" placeholder="Enter Mobile Number">
+
+      <label>Email</label>
+      <input type="email" placeholder="Enter Email">
+
+      <button type="submit">Submit</button>
+    </form>
   </div>
+
 </body>
 </html>
