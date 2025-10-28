@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimal Spam Detector</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .box {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 6px;
+      background: #007bff;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .result {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .spam { color: #d32f2f; }
+    .ham { color: #2e7d32; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Spam Detector</h2>
+    <textarea id="msg" placeholder="Type a message..."></textarea>
+    <button onclick="detectSpam()">Check</button>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    const spamWords = ["free","win","offer","money","prize","click","cash","urgent","buy","discount","congratulations"];
+
+    function detectSpam() {
+      const text = document.getElementById("msg").value.toLowerCase();
+      const result = document.getElementById("result");
+
+      if (!text.trim()) {
+        result.textContent = "Please enter a message.";
+        result.className = "result";
+        return;
+      }
+
+      let score = 0;
+      spamWords.forEach(w => { if (text.includes(w)) score += 2; });
+      if (text.match(/!{2,}/)) score++;
+      if (text.match(/[A-Z]{5,}/)) score++;
+
+      if (score >= 3) {
+        result.textContent = "Spam Detected!";
+        result.className = "result spam";
+      } else {
+        result.textContent = "Not Spam";
+        result.className = "result ham";
+      }
+    }
+  </script>
+</body>
+</html>

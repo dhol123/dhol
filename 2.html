@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple AI Face Detector</title>
+
+  <!-- TensorFlow.js and Face Detection -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-detection"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_detection"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #004aad;
+    }
+
+    #upload-btn {
+      background: #004aad;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 10px 0;
+    }
+
+    #canvas {
+      display: none;
+      margin-top: 20px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      max-width: 100%;
+    }
+
+    #status {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>AI Face Detector</h1>
+
+  <input type="file" id="file" accept="image/*" />
+  <br>
+  <button id="upload-btn">Detect Faces</button>
+  <br>
+  <canvas id="canvas"></canvas>
+  <p id="status">Loading model...</p>
+
+  <script>
+    let detector;
+    const model = faceDetection.SupportedModels.MediaPipeFaceDetector;
+    const config = { runtime: 'tfjs' };
+    const fileInput = document.getElementById("file");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const statusDiv = document.getElementById("status");
+
+    // Load model
+    faceDetection.createDetector(model, config).then(d => {
+      detector = d;
+      statusDiv.textContent = "Model ready! Upload an image.";
+    }).catch(() => {
+      statusDiv.textContent = "Error loading model.";
+    });
+
+    // On button click
+    document.getElementById("upload-btn").onclick = async () => {
+      if (!fileInput.files[0]) {
+        alert("Please select an image first!");
+        return;
+      }
+
+      const img = new Image();
+      img.onload = async () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        canvas.style.display = "block";
+        statusDiv.textContent = "Detecting...";
+
+        const faces = await detector.estimateFaces(canvas);
+        if (faces.length === 0) {
+          statusDiv.textContent = "No face detected.";
+        } else {
+          statusDiv.textContent = `${faces.length} face(s) detected.`;
+          faces.forEach((f, i) => {
+            const { xMin, yMin, width, height } = f.box;
+            ctx.strokeStyle = "lime";
+            ctx.lineWidth = 3;
+            ctx.strokeRect(xMin, yMin, width, height);
+            ctx.fillStyle = "lime";
+            ctx.fillText(`Face ${i + 1}`, xMin, yMin > 20 ? yMin - 10 : yMin + 20);
+          });
+        }
+      };
+      img.src = URL.createObjectURL(fileInput.files[0]);
+    };
+  </script>
+</body>
+</html>

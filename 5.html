@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simple Sentiment Analysis</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f8ff;
+    color: #222;
+    text-align: center;
+    padding: 40px;
+  }
+
+  h1 {
+    color: #004aad;
+  }
+
+  textarea {
+    width: 100%;
+    max-width: 500px;
+    height: 100px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+  }
+
+  textarea:focus {
+    border-color: #004aad;
+    outline: none;
+  }
+
+  button {
+    background: #004aad;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.3s;
+  }
+
+  button:hover {
+    background: #00308f;
+  }
+
+  #result {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .positive { color: #28a745; }
+  .negative { color: #dc3545; }
+  .neutral { color: #6c757d; }
+</style>
+</head>
+<body>
+
+<h1>Simple Sentiment Analysis</h1>
+<p>Type your feedback below:</p>
+
+<textarea id="feedback" placeholder="Enter your text..."></textarea>
+<br />
+<button onclick="analyzeSentiment()">Analyze</button>
+
+<div id="result"></div>
+
+<script>
+function analyzeSentiment() {
+  const text = document.getElementById("feedback").value.toLowerCase().replace(/[.,!?;()"]/g, "");
+  const words = text.split(/\s+/).filter(w => w.length > 0);
+
+  const lexicon = {
+    'love': 3, 'fantastic': 3, 'excellent': 3, 'great': 2, 'good': 1,
+    'happy': 1, 'nice': 1, 'awesome': 2, 'amazing': 2,
+    'bad': -1, 'poor': -2, 'terrible': -3, 'worst': -3,
+    'awful': -3, 'hate': -3, 'sad': -2, 'angry': -2, 'disappointed': -2
+  };
+
+  const negations = ['not', 'never', 'no', "n't"];
+  let score = 0;
+
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
+    if (lexicon[word]) {
+      let value = lexicon[word];
+      if (i > 0 && negations.includes(words[i - 1])) value *= -1;
+      score += value;
+    }
+  }
+
+  const result = document.getElementById("result");
+  if (score > 1) {
+    result.textContent = `Sentiment: Positive (${score}) `;
+    result.className = "positive";
+  } else if (score < -1) {
+    result.textContent = `Sentiment: Negative (${score}) `;
+    result.className = "negative";
+  } else {
+    result.textContent = `Sentiment: Neutral (${score}) `;
+    result.className = "neutral";
+  }
+}
+</script>
+
+</body>
+</html>
