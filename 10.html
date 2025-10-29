@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Personalized E-commerce</title>
+<style>
+body{font-family:Arial;margin:20px;background:#f4f4f4}
+h2{color:#333}
+.products,.recs{display:flex;gap:10px;flex-wrap:wrap}
+.card{background:#fff;padding:10px;border-radius:8px;width:150px;text-align:center;cursor:pointer;box-shadow:0 0 5px #aaa}
+</style>
+</head>
+<body>
+
+<h2>🛍 Product List</h2>
+<div id="products" class="products"></div>
+
+<h2>⭐ Recommended For You</h2>
+<div id="recs" class="recs"></div>
+
+<script>
+// --- sample products ---
+const items=[
+ {id:1,name:"Laptop",cat:"electronics"},
+ {id:2,name:"Headphones",cat:"electronics"},
+ {id:3,name:"Shoes",cat:"fashion"},
+ {id:4,name:"T-Shirt",cat:"fashion"},
+ {id:5,name:"Watch",cat:"accessory"},
+ {id:6,name:"Sunglasses",cat:"accessory"}
+];
+
+// --- display all products ---
+const prodDiv=document.getElementById("products");
+items.forEach(p=>{
+ let d=document.createElement("div");
+ d.className="card";
+ d.innerHTML=p.name;
+ d.onclick=()=>view(p);
+ prodDiv.appendChild(d);
+});
+
+// --- store viewed items in session ---
+let history=[]; // local session memory
+function view(p){
+ alert("You viewed "+p.name);
+ history.push(p.cat);
+ showRec();
+}
+
+// --- show simple recommendations ---
+function showRec(){
+ let last=history[history.length-1];
+ let rec=items.filter(x=>x.cat===last);
+ let recDiv=document.getElementById("recs");
+ recDiv.innerHTML="";
+ rec.forEach(p=>{
+  let d=document.createElement("div");
+  d.className="card";
+  d.innerHTML=p.name;
+  recDiv.appendChild(d);
+ });
+}
+</script>
+
+</body>
+</html>
